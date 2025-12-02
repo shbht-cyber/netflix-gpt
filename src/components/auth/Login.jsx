@@ -21,6 +21,11 @@ const Login = () => {
   const toggleMode = () => {
     setIsSignUp(!isSignUp);
     setErrors({});
+    setFormData({
+      name: "",
+      email: "",
+      password: "",
+    });
   };
 
   const onInputChange = (e) => {
