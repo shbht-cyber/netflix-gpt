@@ -4,6 +4,7 @@ import {
   signInWithEmailAndPassword,
   updateProfile,
 } from "firebase/auth";
+import { useDispatch } from "react-redux";
 
 import Header from "../common/Header";
 import LoginForm from "./LoginForm";
@@ -14,6 +15,7 @@ import {
 } from "../../utils/validation";
 import { auth } from "../../utils/firbase";
 import { USER_AVATAR } from "../../utils/constants";
+import { addUser } from "../../utils/redux/userSlice";
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -24,6 +26,8 @@ const Login = () => {
 
   const [errors, setErrors] = useState({});
   const [isSignUp, setIsSignUp] = useState(false);
+
+  const dispatch = useDispatch();
 
   const toggleMode = () => {
     setIsSignUp(!isSignUp);
@@ -51,14 +55,14 @@ const Login = () => {
         })
           .then(() => {
             const { uid, email, displayName, photoURL } = auth.currentUser;
-            // dispatch(
-            //   addUser({
-            //     uid: uid,
-            //     email: email,
-            //     displayName: displayName,
-            //     photoURL: photoURL,
-            //   })
-            // );
+            dispatch(
+              addUser({
+                uid: uid,
+                email: email,
+                displayName: displayName,
+                photoURL: photoURL,
+              })
+            );
           })
           .catch((error) => {
             setErrors({
