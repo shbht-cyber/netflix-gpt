@@ -70,6 +70,10 @@ const LoginForm = ({
           )}
         </div>
 
+        {errors?.auth && (
+          <p className="text-red-500 text-sm mb-2">{errors.auth}</p>
+        )}
+
         <button className="w-full bg-red-600 py-3 rounded-md hover:bg-red-700 transition">
           {isSignUp ? "Create Account" : "Sign In"}
         </button>
