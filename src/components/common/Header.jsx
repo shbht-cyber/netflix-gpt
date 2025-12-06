@@ -7,11 +7,13 @@ import { FaBell } from "react-icons/fa";
 import { LOGO } from "../../utils/constants";
 import { addUser, removeUser } from "../../utils/redux/userSlice";
 import { auth } from "../../utils/firbase";
+import { toggleGptSearchView } from "../../utils/redux/gptSlice";
 
 const Header = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const user = useSelector((store) => store.user);
+  const showGptSearch = useSelector((store) => store.gpt.showGptSearch);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -44,6 +46,10 @@ const Header = () => {
       });
   };
 
+  const handleGptSearchClick = () => {
+    dispatch(toggleGptSearchView());
+  };
+
   return (
     <header className="fixed top-0 left-0 w-full z-50 px-6 py-4 bg-gradient-to-b from-black/90 to-transparent flex items-center justify-between">
       {/* Logo */}
@@ -66,6 +72,13 @@ const Header = () => {
               My List
             </li>
           </ul>
+
+          <button
+            className="py-2 px-4 mx-4 my-2 bg-purple-800 text-white rounded-lg"
+            onClick={handleGptSearchClick}
+          >
+            {showGptSearch ? "Homepage" : "GPT Search"}
+          </button>
 
           <FaBell className="hidden md:block cursor-pointer hover:text-white transition" />
 
