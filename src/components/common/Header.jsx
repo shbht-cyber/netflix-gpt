@@ -53,8 +53,11 @@ const Header = () => {
 
   return (
     <header className="fixed top-0 left-0 w-full z-50 px-6 py-4 bg-gradient-to-b from-black/90 to-transparent flex items-center justify-between">
-      {/* Logo */}
-      <img src={LOGO} alt="Netflix-logo" className="w-28 cursor-pointer" />
+      <img
+        src={LOGO}
+        alt="Netflix-logo"
+        className="w-28 cursor-pointer hidden md:block"
+      />
 
       {user && (
         <nav className="flex items-center gap-8 text-gray-300 font-medium">
