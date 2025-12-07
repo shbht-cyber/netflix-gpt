@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 
 import { API_OPTIONS } from "../../../utils/constants";
 import { addGptMovieResult } from "../../../utils/redux/gptSlice";
+import gemini from "../../../utils/gemini";
 
 const GptSearchBar = () => {
   const dispatch = useDispatch();
@@ -29,21 +30,17 @@ const GptSearchBar = () => {
       searchText.current.value +
       ". only give me names of 5 movies, comma seperated like the example result given ahead. Example Result: Gadar, Sholay, Don, Golmaal, Koi Mil Gaya";
 
-    // const geminiResults = await openai.chat.completions.create({
-    //   // messages: [{ role: "user", content: gptQuery }],
-    //   model: "gpt-3.5-turbo",
-    // });
-
-    const geminiResults = "Dhol,Dhamal,Hera pheri,jawan,sultan";
+    const geminiResults = await gemini(apiQuery);
 
     if (!geminiResults) {
       console.log("No movies found");
     }
 
-    const geminiMovies = geminiResults.split(",");
+    const geminiMovies = geminiResults?.candidates[0]?.content?.parts[0]?.text
+      .trim()
+      .split(",");
 
     // For each movie now search TMDB API
-
     const promiseArray = geminiMovies.map((movie) => searchMovieTMDB(movie));
     // [Promise, Promise, Promise, Promise, Promise]
 
