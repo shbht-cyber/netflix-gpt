@@ -7,13 +7,18 @@ const MainContainer = () => {
 
   if (!movies) return;
 
-  const mainMovie = movies[0];
+  const moviesCount = movies.length;
+  const mainMovieIndex = Math.floor(Math.random() * moviesCount);
+
+  const mainMovie = movies[mainMovieIndex];
 
   const { original_title, overview, id } = mainMovie;
 
+  console.log("main move", mainMovie);
+
   return (
     <div className="pt-[30%] bg-black md:pt-0">
-      <VideoTitle title={original_title} overview={overview} />
+      <VideoTitle title={original_title} overview={overview} id={id} />
       <VideoBackground movieId={id} />
     </div>
   );

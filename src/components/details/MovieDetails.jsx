@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
-import { API_OPTIONS } from "../../utils/constants";
+import { API_OPTIONS, LOGO } from "../../utils/constants";
 import Cast from "./Cast";
 import MovieOverview from "./MovieOverview";
 
@@ -9,6 +9,8 @@ const MovieDetails = () => {
   const { id } = useParams();
   const [movie, setMovie] = useState(null);
   const [cast, setCast] = useState([]);
+
+  const navigate = useNavigate();
 
   const fetchMovieDetails = async () => {
     const res = await fetch(
@@ -25,7 +27,7 @@ const MovieDetails = () => {
       API_OPTIONS
     );
     const data = await res.json();
-    setCast(data.cast.slice(0, 10));
+    setCast(data.cast);
   };
 
   useEffect(() => {
@@ -47,6 +49,10 @@ const MovieDetails = () => {
         backgroundImage: `url(https://image.tmdb.org/t/p/original${movie.backdrop_path})`,
       }}
     >
+      <div onClick={() => navigate(`/browse`)}>
+        <img src={LOGO} alt="Netflix-logo" className="w-28 cursor-pointer" />
+      </div>
+
       <div className="backdrop-blur-md bg-black/70 p-8 rounded-lg max-w-5xl mx-auto">
         <MovieOverview movie={movie} trailer={trailer} />
 

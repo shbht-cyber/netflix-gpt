@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { FaBell } from "react-icons/fa";
 
@@ -12,6 +12,7 @@ import { toggleGptSearchView } from "../../utils/redux/gptSlice";
 const Header = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { id } = useParams();
   const user = useSelector((store) => store.user);
   const showGptSearch = useSelector((store) => store.gpt.showGptSearch);
 
@@ -27,7 +28,7 @@ const Header = () => {
             photoURL: photoURL,
           })
         );
-        navigate("/browse");
+        id ? navigate(`/movie/${id}`) : navigate("/browse");
       } else {
         dispatch(removeUser());
         navigate("/");
