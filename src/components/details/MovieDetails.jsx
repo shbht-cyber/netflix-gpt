@@ -9,6 +9,7 @@ const MovieDetails = () => {
   const { id } = useParams();
   const [movie, setMovie] = useState(null);
   const [cast, setCast] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   const navigate = useNavigate();
 
@@ -31,12 +32,23 @@ const MovieDetails = () => {
   };
 
   useEffect(() => {
-    fetchMovieDetails();
-    fetchCast();
+    const fetchAll = async () => {
+      setIsLoading(true);
+      await Promise.all([fetchMovieDetails(), fetchCast()]);
+      setIsLoading(false);
+    };
+
+    fetchAll();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
-  if (!movie) return <h1 className="text-white p-10">Loading...</h1>;
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center w-screen h-screen bg-black">
+        <div className="w-16 h-16 border-4 border-gray-400 border-t-red-600 rounded-full animate-spin"></div>
+      </div>
+    );
+  }
 
   const trailer = movie?.videos?.results?.find(
     (video) => video.type === "Trailer"
